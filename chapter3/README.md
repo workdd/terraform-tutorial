@@ -35,3 +35,29 @@
     - 시크릿
         - 상태 파일을 저장할 때 암호화하는 기능을 지원
         - 또한 최소한 상태 파일이 디스크 어디에도 plain text로 저장되지는 않으므로 보안 문제 해결
+
+### 3. 테라폼 백엔드의 단점
+
+- 테라폼 백엔드를 위한 s3, dynamodb 등을 만드는 것은 과할 수 있음
+- 테라폼의 backend 블록에서는 변수나 참조 사용 불가, 아래 코드는 동작하지 않음
+    
+    ```python
+    terraform {
+    	backend "s3" {
+    		bucket         = var.bucket
+    		region         = var.region
+    		dynamodb_table = var.dynamodb_table
+    		key            = "example/terraform.tfstate"
+    		encrypt        = true
+    	}
+    }
+    ```
+    
+    - s3 버킷 이름, 리전, dynmoadb 테이블 이름 등을 모두 테라폼 모듈에 수동으로 복사해서 붙여넣어야함.
+    - 백엔드 인수를 별도의 파일로 저장하여 해당 단점을 극복할 수 있음, backend.hc1 파일 참조
+- 해당 명령어로 init 시 backend.hc1 파일 참조 가능
+    
+    ```python
+    terraform init -backend-config=backend.hc1
+    ```
+    

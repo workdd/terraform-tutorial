@@ -37,14 +37,10 @@ resource "aws_dynamodb_table" "terraform_locks" {
   }
 }
 
+# 나머지 구성은, backend.hc1 파일에 저장
 terraform {
   backend "s3"{
-      bucket = "jg-tutorial-terraform-state"
       key = "global/s3/terraform.tfstate"
-      region = "us-west-2"
-
-      dynamodb_table = "jg-tutorial-terraform-lock"
-      encrypt = true
   }
 }
 

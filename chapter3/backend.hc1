@@ -1,0 +1,4 @@
+bucket = "jg-tutorial-terraform-state"
+region = "us-west-2"
+dynamodb_table = "jg-tutorial-terraform-lock"
+encrypt = true
